@@ -18,6 +18,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class FirstActivity extends AppCompatActivity {
 
+    EditText dt;
     private String tag = "FirstActivityLog";
     @Override
     protected void onPostCreate(@Nullable Bundle savedInstanceState) {
@@ -42,6 +43,9 @@ public class FirstActivity extends AppCompatActivity {
 //                    intent.setClass(FirstActivity.this, SecondActivity.class);
 //                    startActivity(intent);
 
+
+
+
                 AlertDialog.Builder b = new AlertDialog.Builder(FirstActivity.this);
                 b.setTitle("Erase your storage");
                 b.setMessage("You will lose your database!");
@@ -62,6 +66,25 @@ public class FirstActivity extends AppCompatActivity {
             }
         });
 
+        dt = findViewById(R.id.editText);
+
+        Button secondBut = findViewById(R.id.btnNd);
+        secondBut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = new Intent();
+                intent.setClass(FirstActivity.this, SecondActivity.class);
+
+                String i = dt.getText().toString();
+                intent.putExtra("dulieu", i);
+
+                //startActivity(intent);
+                startActivityForResult(intent, SecondActivity.TRAVETU_ACTIVITY2);
+
+            }
+        });
+
         CheckBox chk = findViewById(R.id.checkbox1);
         if(chk.isChecked()){
             Toast.makeText(FirstActivity.this, "Oke tot ot", Toast.LENGTH_LONG);
@@ -69,10 +92,16 @@ public class FirstActivity extends AppCompatActivity {
 
         }
 
+    }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
-
-
+        if(requestCode == SecondActivity.TRAVETU_ACTIVITY2){
+            String s = data.getStringExtra("dulieu");
+            dt.setText(s);
+        }
     }
 
     @Override
